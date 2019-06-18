@@ -24,17 +24,20 @@ const posts = [{
     id: "1",
     title: "superman",
     body: "superman is stong",
-    published: true
+    published: true,
+    author: '1'
 },{
     id: "2",
     title: "batman",
     body: "batman is popular",
-    published: true
+    published: true,
+    author: '1'
 },{
     id: "3",
     title: "aquaman",
     body: "it is better than other 2",
-    published: false
+    published: false,
+    author: '2'
 }];
 
 // type definitions (schema)
@@ -51,6 +54,7 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
+        posts: [Post!]!
     }
 
     type Post {
@@ -58,6 +62,7 @@ const typeDefs = `
         title: String!
         body: String!
         published: Boolean!
+        author: User!
     }
 `;
 
@@ -95,6 +100,18 @@ const resolvers = {
                 body: 'this is my post test',
                 published: true
             }
+        }
+    },
+    Post: {
+        author(parent, args, ctx, info){
+            return users.find((user)=>{
+                return user.id === parent.author;
+            });
+        }
+    },
+    User: {
+        posts(parent,args,ctx,info){
+            return posts.filter((post)=> post.author === parent.id);
         }
     }
 };
