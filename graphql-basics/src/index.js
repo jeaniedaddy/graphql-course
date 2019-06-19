@@ -1,8 +1,38 @@
 import { GraphQLServer } from 'graphql-yoga';
+import { parseConstValue } from 'graphql/language/parser';
+import { ProvidedRequiredArguments } from 'graphql/validation/rules/ProvidedRequiredArguments';
 
 // Scalar types:  String, Boolean, Int, Float, ID
 
 // Demo user data
+
+const comments = [{
+    id: '1',
+    text: 'good comment',
+    author: '1'
+}, {
+    id: '1',
+    text: 'it was really funn',
+    author: '1'
+}, {
+    id: '2',
+    text: 'not good',
+    author: '3'
+}, {
+    id: '2',
+    text: 'it was so so ',
+    author: '2'
+
+}, {
+    id: '3',
+    text: 'waste of my money',
+    author: '1'
+}, {
+    id: '3',
+    text: 'amazing',
+    author: '3'
+}];
+
 const users = [{
     id: '1',
     name: 'Steve',
@@ -45,6 +75,7 @@ const typeDefs = `
     type Query {
         users(query: String): [User!]!
         posts(query: String): [Post!]!
+        comments(query:String): [Comment!]!
         me: User!
         post: Post!
     } 
@@ -55,6 +86,7 @@ const typeDefs = `
         email: String!
         age: Int
         posts: [Post!]!
+        comments: [Comment!]!
     }
 
     type Post {
@@ -64,10 +96,23 @@ const typeDefs = `
         published: Boolean!
         author: User!
     }
+
+    type Comment {
+        id: ID!
+        text: String!
+        author: User!
+    }
 `;
 
 const resolvers = {
     Query: {
+        comments(parent, args, ctx, info){
+            if(!args.query){
+                return comments;
+            }
+
+            return comments.filter((comment)=> comment.text.toLowerCase().includes(args.query.toLowerCase()));
+        },
         posts(parent, args, ctx, info){
             if(!args.query){
                 return posts;
@@ -111,7 +156,15 @@ const resolvers = {
     },
     User: {
         posts(parent,args,ctx,info){
-            return posts.filter((post)=> post.author === parent.id);
+            return posts.filter(post=> post.author === parent.id);
+        },
+        comments(parent, args, ctx, info){
+            return comments.filter(comment=>comment.author === parent.id);
+        }
+    },
+    Comment: {
+        author(parent, args, ctx, info){
+            return users.find((user)=>(user.id === parent.author));
         }
     }
 };
