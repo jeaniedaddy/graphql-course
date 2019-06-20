@@ -1,6 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga';
-import { parseConstValue } from 'graphql/language/parser';
-import { ProvidedRequiredArguments } from 'graphql/validation/rules/ProvidedRequiredArguments';
+import uuidv4 from 'uuid/v4';
 
 // Scalar types:  String, Boolean, Int, Float, ID
 
@@ -86,6 +85,10 @@ const typeDefs = `
         post: Post!
     } 
 
+    type Mutation {
+        createUser(name: String!, email: String!, age: Int): User!
+    }
+
     type User {
         id: ID!
         name: String!
@@ -153,6 +156,22 @@ const resolvers = {
                 body: 'this is my post test',
                 published: true
             }
+        }
+    },
+    Mutation : {
+        createUser(parent, args, ctx, info){
+            if(users.some(user=> user.email.toLowerCase()=== args.email.toLowerCase())){
+                throw new Error("email taken");
+            }
+            const user = {
+                id: uuidv4(),
+                name: args.name,
+                email: args.email,
+                age: args.age 
+            };
+
+            users.push(user);
+            return user; 
         }
     },
     Post: {
