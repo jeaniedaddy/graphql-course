@@ -86,9 +86,28 @@ const typeDefs = `
     } 
 
     type Mutation {
-        createUser(name: String!, email: String!, age: Int): User!
-        createPost(title: String!, body:String!, published: Boolean, author:ID!):Post!
-        createComment(post: ID!, text:String!, author:ID!): Comment!
+        createUser(data: CreateUserInput!): User!
+        createPost(data: CreatePostInput!):Post!
+        createComment(data: CreateCommentInput!): Comment!
+    }
+
+    input CreateUserInput {
+        name: String! 
+        email: String! 
+        age: Int
+    }
+
+    input CreatePostInput {
+        title: String! 
+        body:String!  
+        author:ID! 
+        published: Boolean!
+    }
+
+    input CreateCommentInput {
+        post: ID! 
+        text:String! 
+        author:ID!
     }
 
     type User {
@@ -162,52 +181,45 @@ const resolvers = {
     },
     Mutation : {
         createUser(parent, args, ctx, info){
-            const emailTaken = users.some(user=> user.email.toLowerCase()=== args.email.toLowerCase());
+            const emailTaken = users.some(user=> user.email.toLowerCase()=== args.data.email.toLowerCase());
             if(emailTaken){
                 throw new Error("Email taken");
             }
             const user = {
                 id: uuidv4(),
-                name: args.name,
-                email: args.email,
-                age: args.age 
+                ...args.data
             };
 
             users.push(user);
             return user; 
         },
         createPost(parent, args, ctx, info){
-            const userExist = users.some(user=> user.id === args.author);
+            const userExists = users.some(user=> user.id === args.data.author);
 
-            if(!userExist){
+            if(!userExists){
                 throw new Error("No user");
             }
             const post = {
                 id: uuidv4(),
-                title: args.title,
-                body: args.body,
-                published: args.published,
-                author: args.author
+                ...args.data
             };
 
             posts.push(post);
             return post; 
         },
         createComment(parent, args, ctx, info){
-            const userExist = users.some(user=> user.id === args.author);
-            const postExist = posts.some(post=> post.id === args.post);
+            const userExists = users.some(user=> user.id === args.data.author);
+            const postExists = posts.some(post=> post.id === args.data.post && post.published );
         
-            if(!userExist){
-                throw new Error("No user");
+            if(!userExists){
+                throw new Error("Unable to find the user");
             }
-            if(!postExist){
-                throw new Error("No Post");
+            if(!postExists){
+                throw new Error("Unable to find the post");
             }
             const comment = {
                 id: uuidv4(),
-                text: args.text,
-                author: args.author,
-                post: args.post 
+                ...args.data
             };
 
             comments.push(comment);
