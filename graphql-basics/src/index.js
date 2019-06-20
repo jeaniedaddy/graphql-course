@@ -86,6 +86,7 @@ const typeDefs = `
     } 
 
     type Mutation {
+<<<<<<< HEAD
         createUser(data: CreateUserInput!): User!
         createPost(data: CreatePostInput!):Post!
         createComment(data: CreateCommentInput!): Comment!
@@ -108,6 +109,11 @@ const typeDefs = `
         post: ID! 
         text:String! 
         author:ID!
+=======
+        createUser(name: String!, email: String!, age: Int): User!
+        createPost(title: String!, body:String!,  author:ID!):Post!
+        createComment(post: ID!, text:String!, author:ID!): Comment!
+>>>>>>> f0e63b5bd97dc1cdd1ba21ed8f894eb7de7def9e
     }
 
     type User {
@@ -208,8 +214,13 @@ const resolvers = {
             return post; 
         },
         createComment(parent, args, ctx, info){
+<<<<<<< HEAD
             const userExists = users.some(user=> user.id === args.data.author);
             const postExists = posts.some(post=> post.id === args.data.post && post.published );
+=======
+            const userExists = users.some(user=> user.id === args.author);
+            const postExists = posts.some(post=> post.id === args.post && post.published );
+>>>>>>> f0e63b5bd97dc1cdd1ba21ed8f894eb7de7def9e
         
             if(!userExists){
                 throw new Error("Unable to find the user");
@@ -219,7 +230,11 @@ const resolvers = {
             }
             const comment = {
                 id: uuidv4(),
+<<<<<<< HEAD
                 ...args.data
+=======
+                ...args
+>>>>>>> f0e63b5bd97dc1cdd1ba21ed8f894eb7de7def9e
             };
 
             comments.push(comment);
