@@ -1,2 +1,3 @@
 graphql-basics/node_modules
-graphql-prisma
+graphql-prisma/prisma-reviews-web/docker-compose.yml
+graphql-prisma/node_modules
