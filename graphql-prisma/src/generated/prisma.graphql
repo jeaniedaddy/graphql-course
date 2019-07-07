@@ -1,5 +1,5 @@
 # source: http://192.168.99.100:4466/
-# timestamp: Fri Jul 05 2019 20:47:07 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sat Jul 06 2019 11:19:49 GMT-0400 (Eastern Daylight Time)
 
 type AggregateComment {
   count: Int!
@@ -446,7 +446,7 @@ type PageInfo {
 type Post implements Node {
   id: ID!
   title: String!
-  body: String!
+  body: String
   published: Boolean!
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
@@ -465,7 +465,7 @@ type PostConnection {
 input PostCreateInput {
   id: ID
   title: String!
-  body: String!
+  body: String
   published: Boolean!
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
@@ -484,7 +484,7 @@ input PostCreateOneWithoutCommentsInput {
 input PostCreateWithoutAuthorInput {
   id: ID
   title: String!
-  body: String!
+  body: String
   published: Boolean!
   comments: CommentCreateManyWithoutPostInput
 }
@@ -492,7 +492,7 @@ input PostCreateWithoutAuthorInput {
 input PostCreateWithoutCommentsInput {
   id: ID
   title: String!
-  body: String!
+  body: String
   published: Boolean!
   author: UserCreateOneWithoutPostsInput!
 }
@@ -520,7 +520,7 @@ enum PostOrderByInput {
 type PostPreviousValues {
   id: ID!
   title: String!
-  body: String!
+  body: String
   published: Boolean!
 }
 
