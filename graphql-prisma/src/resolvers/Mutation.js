@@ -18,7 +18,7 @@ const Mutation = {
             }
         }, info)
     },
-    async updateUser(parent, args, { prisma }, info){
+    updateUser(parent, args, { prisma }, info){
         return prisma.mutation.updateUser({
             where: { 
                 id: args.id
