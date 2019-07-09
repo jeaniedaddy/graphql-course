@@ -4,7 +4,12 @@
             "schemaPath": "src/generated/prisma.graphql",
             "extensions": {
                 "endpoints": {
-                    "default": "http://192.168.99.100:4466/"
+                    "default": {
+                        "url": "http://192.168.99.100:4466/",
+                        "headers": {
+                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTYyNjEyNTgyLCJleHAiOjE1NjMyMTczODJ9.iT4VLOnlh3ayhYHJMpA-7fN9aov6FnlDvPuKgc6ivIU"
+                        }
+                    }
                 }
             }
         }
