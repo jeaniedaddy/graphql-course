@@ -8,7 +8,7 @@ const getUserId = (request) => {
 
     const token = headers.authorization.replace("Bearer ","")
     const { userId } = jwt.verify(token,"mysecretword")
-    return userId 
+    return userId  
 }
 
 export { getUserId as default }
