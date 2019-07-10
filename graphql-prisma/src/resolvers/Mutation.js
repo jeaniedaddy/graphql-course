@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import getUserId from '../utils/getUserId'
 
 const PASS_KEY = 'mysecretword'
 
@@ -61,7 +62,7 @@ const Mutation = {
             data: args.data
         })
     },
-    createPost(parent, args, { prisma }, info){
+    createPost(parent, args, { prisma, request }, info){
         return prisma.mutation.createPost({
             data: {
                 title: args.data.title,
@@ -69,7 +70,7 @@ const Mutation = {
                 published: args.data.published,
                 author: {
                     connect: {
-                        id: args.data.author
+                        id: getUserId(request) 
                     }
                 }
             }
