@@ -24,6 +24,7 @@ type Subscription {
     count: Int!
     comment(postId:ID!): CommentSubscriptionPayload!
     post: PostSubscriptionPayload!
+    myPost: PostSubscriptionPayload!
 }
 
 type AuthPayLoad {
@@ -93,7 +94,7 @@ type Comment {
     author: User!
     post: Post!
 }
-
+ 
 enum MutationType {
     CREATED
     UPDATED
