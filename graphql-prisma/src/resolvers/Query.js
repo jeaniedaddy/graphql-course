@@ -5,7 +5,8 @@ const Query = {
         const opArgs = {
             first: args.first,
             skip: args.skip,
-            after:args.after
+            after:args.after,
+            orderBy: args.orderBy
         }
         if(args.query){
             opArgs.where = {
@@ -26,7 +27,8 @@ const Query = {
             },
             first: args.first,
             skip: args.skip,
-            after:args.after
+            after:args.after,
+            orderBy: args.orderBy
         }
 
         if(args.query){
@@ -45,7 +47,8 @@ const Query = {
             },
             first: args.first,
             skip: args.skip,
-            after:args.after
+            after:args.after,
+            orderBy: args.orderBy
         }
 
         if(args.query){
@@ -61,7 +64,8 @@ const Query = {
         const opArgs = {
             first: args.first,
             skip: args.skip,
-            after: args.after
+            after: args.after,
+            orderBy: args.orderBy
         }
         if(args.query){
             opArgs.where = {
